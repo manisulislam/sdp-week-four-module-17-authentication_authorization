@@ -1,5 +1,5 @@
 from django.shortcuts import render, redirect
-from .forms import RegisterForm
+from .forms import RegisterForm, change_data_form
 from django.contrib import messages
 from django.contrib.auth import authenticate, login, logout, update_session_auth_hash
 from django.contrib.auth.forms import AuthenticationForm, PasswordChangeForm, SetPasswordForm
@@ -83,3 +83,17 @@ def without_old_pass_change(request):
     return render(request, 'pass_change.html', {
         'form': form
     })
+    
+def update_data(request):
+    if request.user.is_authenticated:
+        if request.method == "POST":
+            form = change_data_form(request.POST, instance=request.user)
+            if form.is_valid():
+                messages.success(request, f"Your account has been updated!")
+                form.save()
+                
+        else:
+            form = change_data_form(instance=request.user)
+        return render(request,'update.html', {"form": form})
+    else:
+        return redirect("signUp")
