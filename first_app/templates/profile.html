@@ -3,6 +3,8 @@
 
 {% block content %}
 <h1>this is profile page</h1>
-<h1>helo {{user}}</h1>
-
+<h1>hello {{user}}</h1>
+<a href="{% url 'passChange' %}"> password change</a>
+<br>
+<a href="{% url 'withoutOldPassChange' %}"> with out old password</a>
 {% endblock %}
